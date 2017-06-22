@@ -21,5 +21,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        Button confirm = (Button)findViewById(R.id.button4);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ConfirmActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
