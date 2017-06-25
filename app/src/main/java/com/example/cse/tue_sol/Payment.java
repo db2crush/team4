@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -56,6 +58,11 @@ public class Payment extends ActionBarActivity {
     TextView Point;
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
+
+    private SQLiteHandler db;
+    private SessionManager session;
+    private SQLiteDatabase sqlDB;
+    private TextView TotalPoint;
 
     ListView mlistView1;
     Button Btn_cancel;
@@ -104,7 +111,26 @@ public class Payment extends ActionBarActivity {
         mChildList.add(mChildListContent);
         mChildList.add(mChildListContent);
 
+
         mListView.setAdapter(new BaseExpandableAdapter(this, mGroupList, mChildList));
+
+        // SqLite database handler
+        db = new SQLiteHandler(Payment.this);
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+        String name = user.get("name");
+        String email = user.get("email");
+        Log.d("dddddd", ""+name);
+        Log.d("qqqqq",""+email);
+
+
+
+
 
         // ??? ??? ???? ??? ????
         mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -178,7 +204,7 @@ public class Payment extends ActionBarActivity {
         Log.d("ooooooooooooo",""+indexNum);
         //??????
         GetData task = new GetData();
-        task.execute("http://team4team4.esy.es/payment.php", String.valueOf(indexNum));
+        task.execute("http://team4team4.esy.es/payment.php", String.valueOf(indexNum), email);
 
 
 
@@ -233,12 +259,12 @@ public class Payment extends ActionBarActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-            mTextViewResult.setText(result);
+         //  mTextViewResult.setText(result);
             Log.d(TAG, "response  - " + result);
 
             if (result == null) {
 
-                mTextViewResult.setText(errorString);
+           //     mTextViewResult.setText(errorString);
             } else {
 
                 mJsonString1 = result;
@@ -252,7 +278,8 @@ public class Payment extends ActionBarActivity {
 
             String serverURL = params[0];
             String data = params[1];
-            String postData = "data=" + data ;
+            String email = params[2];
+            String postData = "data=" + data + "&" + "email=" + email ;
 
 
             try {

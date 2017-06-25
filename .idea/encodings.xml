@@ -7,10 +7,11 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/cse/tue_sol/SearchActivity.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/card.png" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ticket.jpg" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ticketP.jpg" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ticket_pay.jpg" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_payment.xml" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/list_payment.xml" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/list_row.xml" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/menu/menu_payment.xml" charset="windows-1251" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

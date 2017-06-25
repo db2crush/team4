@@ -217,7 +217,7 @@ public class SearchActivity extends AppCompatActivity {
 
             if (result == null){
 
-                mTextViewResult.setText(errorString);
+               // mTextViewResult.setText(errorString);
             }
             else {
 
