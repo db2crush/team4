@@ -1,5 +1,6 @@
 package com.example.cse.tue_sol;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -42,7 +43,7 @@ import java.io.OutputStream;
 
 import java.net.MalformedURLException;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends Activity {
     private EditText data1, data2, data3;
     private Button btn_send,btn_date,btn_time;
 
