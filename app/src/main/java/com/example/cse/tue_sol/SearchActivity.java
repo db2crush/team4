@@ -218,7 +218,7 @@ public class SearchActivity extends Activity {
 
             if (result == null){
 
-                mTextViewResult.setText(errorString);
+               // mTextViewResult.setText(errorString);
             }
             else {
 
@@ -280,7 +280,7 @@ public class SearchActivity extends Activity {
 
                 bufferedReader.close();
 
-
+                httpURLConnection.disconnect();
                 return sb.toString().trim();
 
 

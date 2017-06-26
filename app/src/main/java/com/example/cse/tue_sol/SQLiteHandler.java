@@ -23,7 +23,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// Database Name
-	private static final String DATABASE_NAME = "android_api";
+	private static final String DATABASE_NAME = "android_api.db";
 
 	// Login table name
 	private static final String TABLE_USER = "user";
@@ -74,7 +74,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 		values.put(KEY_NAME, name); // Name
 		values.put(KEY_EMAIL, email); // Email
 		values.put(KEY_UID, uid);
-		values.put(KEY_PHONE, phone);
+		//values.put(KEY_PHONE, phone);
 
 
 		// Inserting Row
@@ -99,8 +99,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 			user.put("name", cursor.getString(1));
 			user.put("email", cursor.getString(2));
 			user.put("uid", cursor.getString(3));
-			user.put("phone", cursor.getString(4));
-			user.put("created_at", cursor.getString(5));
+			//user.put("phone", cursor.getString(4));
+			//user.put("created_at", cursor.getString(5));
 		}
 		cursor.close();
 		db.close();

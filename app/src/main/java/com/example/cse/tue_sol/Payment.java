@@ -1,10 +1,14 @@
 package com.example.cse.tue_sol;
 
 import android.app.Notification;
+
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
+import android.database.sqlite.SQLiteDatabase;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +27,9 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.w3c.dom.Text;
+
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -57,11 +64,19 @@ public class Payment extends ActionBarActivity {
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
 
+
+    private SQLiteHandler db;
+    private SessionManager session;
+    private SQLiteDatabase sqlDB;
+    private TextView TotalPoint;
+
     ListView mlistView1;
     Button Btn_cancel;
     Button Btn_confirm;
 
     String mJsonString1;
+
+    Intent intent;
 
 
     @Override
@@ -75,6 +90,7 @@ public class Payment extends ActionBarActivity {
         notification.setSmallIcon(R.drawable.ticket_pay);
         notification.setContentTitle("Korail Tok");
         notification.setContentText("Payment Complete!.");
+
 
 
         mTextViewResult = (TextView) findViewById(R.id.textView_main_result);
@@ -104,7 +120,28 @@ public class Payment extends ActionBarActivity {
         mChildList.add(mChildListContent);
         mChildList.add(mChildListContent);
 
+
         mListView.setAdapter(new BaseExpandableAdapter(this, mGroupList, mChildList));
+
+        // SqLite database handler
+        db = new SQLiteHandler(Payment.this);
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+        String name = user.get("name");
+        final String email = user.get("email");
+        Log.d("dddddd", ""+name);
+        Log.d("qqqqq",""+email);
+
+
+        Point = (TextView) findViewById(R.id.total_point);
+        //intent get
+        intent = getIntent();
+        final int indexNum = intent.getIntExtra("index", 0);
 
         // ??? ??? ???? ??? ????
         mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -157,6 +194,10 @@ public class Payment extends ActionBarActivity {
                 Intent intent = new Intent(Payment.this, MainActivity.class);
                 notificationManager.notify(7777, notification.build());
 
+                SetData task = new SetData();
+                task.execute("http://team4team4.esy.es/PayedTicket.php", String.valueOf(indexNum), email);
+
+
 
                 startActivity(intent);
 
@@ -172,13 +213,14 @@ public class Payment extends ActionBarActivity {
             }
         });
 
-        //intent ?? ???
-        Intent intent = getIntent();
-        int indexNum = intent.getIntExtra("index", 0);
-        Log.d("ooooooooooooo",""+indexNum);
-        //??????
+
+
+
+        //php connect
         GetData task = new GetData();
-        task.execute("http://team4team4.esy.es/payment.php", String.valueOf(indexNum));
+        task.execute("http://team4team4.esy.es/payment.php", String.valueOf(indexNum), email);
+
+
 
 
 
@@ -233,12 +275,16 @@ public class Payment extends ActionBarActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-            mTextViewResult.setText(result);
+
+         //  mTextViewResult.setText(result);
+
             Log.d(TAG, "response  - " + result);
 
             if (result == null) {
 
-                mTextViewResult.setText(errorString);
+
+           //     mTextViewResult.setText(errorString);
+
             } else {
 
                 mJsonString1 = result;
@@ -252,7 +298,107 @@ public class Payment extends ActionBarActivity {
 
             String serverURL = params[0];
             String data = params[1];
-            String postData = "data=" + data ;
+
+            String email = params[2];
+            String postData = "data=" + data + "&" + "email=" + email ;
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postData.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                } else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+                httpURLConnection.disconnect();
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+
+        }
+    }
+    private class SetData extends AsyncTask<String, Void, String> {
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(Payment.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            //  mTextViewResult.setText(result);
+            Log.d(TAG, "response  - " + result);
+
+            if (result == null) {
+
+                //     mTextViewResult.setText(errorString);
+            } else {
+
+
+
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String data = params[1];
+            String email = params[2];
+            String postData = "data=" + data + "&" + "email=" + email ;
+
 
 
             try {
@@ -311,6 +457,7 @@ public class Payment extends ActionBarActivity {
         }
     }
 
+
     private void showResult(){
         try {
 
@@ -330,6 +477,11 @@ public class Payment extends ActionBarActivity {
                 String arr=item.getString(TAG_ARR);
                 String address = item.getString(TAG_TRAIN);
                 String price = item.getString(TAG_PRICE);
+
+                String point = item.getString("point");
+
+                //point setting
+                Point.setText(point);
 
                 HashMap<String,String> hashMap = new HashMap<>();
 
@@ -360,5 +512,6 @@ public class Payment extends ActionBarActivity {
         }
 
     }
+
 }
 
