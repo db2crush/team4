@@ -356,7 +356,7 @@ public class SearchActivity extends Activity {
             month=monthOfYear+1;
             day=dayOfMonth;
 
-            Toast.makeText(SearchActivity.this, msg, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SearchActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -377,7 +377,7 @@ public class SearchActivity extends Activity {
             String msg = String.format("%d : %d",  hourOfDay, minute);
             //? ??? ?? ?? ??? ????? ??
             hour=hourOfDay;minutes=minute;
-            Toast.makeText(SearchActivity.this, msg, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SearchActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         }
 

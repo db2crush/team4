@@ -1,5 +1,6 @@
 package com.example.cse.tue_sol;
 
+import android.app.Activity;
 import android.app.Notification;
 
 import android.app.NotificationManager;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Payment extends ActionBarActivity {
+public class Payment extends Activity {
 
     private ArrayList<String> mGroupList = null;
     private ArrayList<ArrayList<String>> mChildList = null;
@@ -69,7 +70,7 @@ public class Payment extends ActionBarActivity {
     private SessionManager session;
     private SQLiteDatabase sqlDB;
     private TextView TotalPoint;
-
+    private String email;
     ListView mlistView1;
     Button Btn_cancel;
     Button Btn_confirm;
@@ -133,7 +134,7 @@ public class Payment extends ActionBarActivity {
         // Fetching user details from SQLite
         HashMap<String, String> user = db.getUserDetails();
         String name = user.get("name");
-        final String email = user.get("email");
+        email = user.get("email");
         Log.d("dddddd", ""+name);
         Log.d("qqqqq",""+email);
 
