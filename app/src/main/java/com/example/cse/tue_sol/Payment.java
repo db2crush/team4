@@ -6,7 +6,9 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
 import android.database.sqlite.SQLiteDatabase;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -25,7 +27,9 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.w3c.dom.Text;
+
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -60,6 +64,7 @@ public class Payment extends ActionBarActivity {
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
 
+
     private SQLiteHandler db;
     private SessionManager session;
     private SQLiteDatabase sqlDB;
@@ -70,7 +75,9 @@ public class Payment extends ActionBarActivity {
     Button Btn_confirm;
 
     String mJsonString1;
+
     Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +143,6 @@ public class Payment extends ActionBarActivity {
         intent = getIntent();
         final int indexNum = intent.getIntExtra("index", 0);
 
-
         // ??? ??? ???? ??? ????
         mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -187,8 +193,10 @@ public class Payment extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Payment.this, MainActivity.class);
                 notificationManager.notify(7777, notification.build());
+
                 SetData task = new SetData();
                 task.execute("http://team4team4.esy.es/PayedTicket.php", String.valueOf(indexNum), email);
+
 
 
                 startActivity(intent);
@@ -204,6 +212,7 @@ public class Payment extends ActionBarActivity {
 
             }
         });
+
 
 
 
@@ -266,12 +275,16 @@ public class Payment extends ActionBarActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
+
          //  mTextViewResult.setText(result);
+
             Log.d(TAG, "response  - " + result);
 
             if (result == null) {
 
+
            //     mTextViewResult.setText(errorString);
+
             } else {
 
                 mJsonString1 = result;
@@ -285,6 +298,7 @@ public class Payment extends ActionBarActivity {
 
             String serverURL = params[0];
             String data = params[1];
+
             String email = params[2];
             String postData = "data=" + data + "&" + "email=" + email ;
 
@@ -386,6 +400,7 @@ public class Payment extends ActionBarActivity {
             String postData = "data=" + data + "&" + "email=" + email ;
 
 
+
             try {
 
                 URL url = new URL(serverURL);
@@ -462,6 +477,7 @@ public class Payment extends ActionBarActivity {
                 String arr=item.getString(TAG_ARR);
                 String address = item.getString(TAG_TRAIN);
                 String price = item.getString(TAG_PRICE);
+
                 String point = item.getString("point");
 
                 //point setting
@@ -496,8 +512,6 @@ public class Payment extends ActionBarActivity {
         }
 
     }
-
-
 
 }
 
