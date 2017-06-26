@@ -40,6 +40,8 @@
             android:name="LogMainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
+        <activity android:name=".Payment">
+        </activity>
     </application>
 
 </manifest>
