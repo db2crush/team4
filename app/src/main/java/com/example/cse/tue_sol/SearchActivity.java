@@ -280,7 +280,7 @@ public class SearchActivity extends Activity {
 
                 bufferedReader.close();
 
-
+                httpURLConnection.disconnect();
                 return sb.toString().trim();
 
 

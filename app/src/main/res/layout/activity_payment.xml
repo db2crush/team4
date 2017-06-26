@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/total_point"
             android:text="18750"
-            android:textSize="40px"/>
+            android:textSize="70px"/>
 
     </LinearLayout>
 
@@ -153,29 +153,25 @@
 
     <TextView
         android:layout_marginLeft="8px"
-        android:layout_marginTop="100px"
+        android:layout_marginTop="160px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ticket Info for payment"
-        android:textSize="40px"/>
+        android:textSize="90px"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="출발역  도착역  출발시간     열차(1-KTX,2-무궁화)   날짜   가격"
-        android:textSize="25px"/>
+        android:text="출발역   도착역    출발시간   열차    날짜      가격"
+        android:textSize="60px"
+        />
     <ListView
         android:id="@+id/listView_main_list"
         android:layout_width="match_parent"
         android:layout_height="209dp"
         android:layout_weight="0.61" />
 
-    <TextView
-        android:id="@+id/textView_main_result"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="TextView"
-        android:layout_weight="0.30" />
+
 
 
 

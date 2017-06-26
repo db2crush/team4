@@ -2,6 +2,7 @@ package com.example.cse.tue_sol;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Button;
  */
 
 public class TicketFragment extends Fragment implements View.OnClickListener{
+
     private View view;
     private WebView webView;
     final static String url = "http://team4team4.esy.es/data.php";
@@ -30,6 +32,7 @@ public class TicketFragment extends Fragment implements View.OnClickListener{
         webView = (WebView)view.findViewById(R.id.scene_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new MyWebViewClient());
+
 
         if(myUrl == null)
             myUrl = url;
